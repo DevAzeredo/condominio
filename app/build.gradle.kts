@@ -62,7 +62,6 @@ kotlin {
             implementation(projects.shared.design)
             implementation(projects.shared.presentation)
             implementation(libs.material3)
-            implementation(libs.ui.tooling.preview)
         }
         androidMain.dependencies {
             implementation(libs.androidx.splashscreen)
