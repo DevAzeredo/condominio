@@ -1,0 +1,58 @@
+[versions]
+agp = "8.3.2"
+android-compileSdk = "34"
+android-jvmTarget = "11"
+android-minSdk = "24"
+android-targetSdk = "34"
+androidx-activity = "1.9.1"
+androidx-appcompat = "1.7.0"
+androidx-lifecycle = "2.8.0"
+androidx-navigation = "2.7.0-alpha07"
+androidx-splashscreen = "1.0.1"
+coil = "3.0.0-alpha10"
+compose-multiplatform = "1.6.11"
+compose-placeholder = "1.0.8"
+koin = "4.0.0-RC1"
+korlibs = "6.0.0"
+kotlin = "2.0.10"
+kotlinx-coroutines = "1.8.1"
+kotlinx-datetime = "0.6.0"
+kotlinx-serialization-json = "1.6.3"
+material3 = "1.6.11"
+multiplatform-settings = "1.1.1"
+napier = "2.7.1"
+skie = "0.8.4"
+uiToolingPreview = "1.6.11"
+
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
+androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
+androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-splashscreen" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor2 = { module = "io.coil-kt.coil3:coil-network-ktor2", version.ref = "coil" }
+compose-placeholder-material3 = { module = "com.eygraber:compose-placeholder-material3", version.ref = "compose-placeholder" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+korlibs-crypto = { module = "com.soywiz:korlibs-crypto", version.ref = "korlibs" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
+multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
+multiplatform-settings-test = { module = "com.russhwolf:multiplatform-settings-test", version.ref = "multiplatform-settings" }
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "uiToolingPreview" }
+
+[bundles]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+skie = { id = "co.touchlab.skie", version.ref = "skie" }
