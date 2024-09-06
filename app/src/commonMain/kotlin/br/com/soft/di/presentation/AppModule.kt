@@ -64,7 +64,7 @@ val appModule = module {
             initializer { ResetPasscodeViewModel(get(), get(), get(), get()) }
             initializer { UnlockPasscodeViewModel(get(), get()) }
             initializer { ForgotPasscodeViewModel(get(), get()) }
-            initializer { RegisterViewModel(get()) }
+            initializer { RegisterViewModel(get(), get()) }
         }
     }
 }
