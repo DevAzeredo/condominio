@@ -1,5 +1,6 @@
 package br.com.soft.di.presentation
 
+import br.com.soft.presentation.login.LoginDestination
 import br.com.soft.presentation.navigation.samples.a.NavigationADestination
 import br.com.soft.presentation.navigation.samples.b.NavigationBDestination
 import br.com.soft.presentation.navigation.samples.c.NavigationCDestination
@@ -26,7 +27,8 @@ val navigationModule = module {
                 SetPasscodeDestination,
                 ResetPasscodeDestination,
                 UnlockPasscodeDestination,
-                RegisterDestination
+                RegisterDestination,
+                LoginDestination
             )
         )
     }

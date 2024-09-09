@@ -6,6 +6,7 @@ import br.com.soft.presentation.app.AppNavigationRouter
 import br.com.soft.presentation.app.AppStore
 import br.com.soft.presentation.app.AppViewModel
 import br.com.soft.presentation.loader.LoaderViewModel
+import br.com.soft.presentation.login.LoginViewModel
 import br.com.soft.presentation.navigation.NavigationBarViewModel
 import br.com.soft.presentation.navigation.samples.a.NavigationAViewModel
 import br.com.soft.presentation.navigation.samples.b.NavigationBViewModel
@@ -65,6 +66,7 @@ val appModule = module {
             initializer { UnlockPasscodeViewModel(get(), get()) }
             initializer { ForgotPasscodeViewModel(get(), get()) }
             initializer { RegisterViewModel(get(), get()) }
+            initializer { LoginViewModel(get(), get()) }
         }
     }
 }

@@ -1,6 +1,7 @@
 package br.com.soft.di.presentation
 
 import androidx.compose.runtime.Composable
+import br.com.soft.presentation.login.LoginDestination
 import br.com.soft.presentation.navigation.NavigationBarPage
 import br.com.soft.presentation.navigation.NavigationBarStore
 import br.com.soft.presentation.navigation.samples.a.NavigationADestination
@@ -35,10 +36,10 @@ val navigationBarModule = module {
                 ),
                 createPage(
                     store = get(),
-                    destination = NavigationBDestination,
+                    destination = LoginDestination,
                     getActiveIcon = { AppIcons.localDrink },
                     getInactiveIcon = { AppIcons.localDrink },
-                    getLabel = { "Page 2" }
+                    getLabel = { "Page Login" }
                 ),
                 createPage(
                     store = get(),

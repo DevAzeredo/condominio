@@ -18,6 +18,7 @@ import shared.design.icon.AppIconModel
  * @param icon The icon to be displayed on the button.
  * @param tint The color to tint the icon.
  */
+
 @Composable
 fun AppActionButton(
     modifier: Modifier = Modifier,
