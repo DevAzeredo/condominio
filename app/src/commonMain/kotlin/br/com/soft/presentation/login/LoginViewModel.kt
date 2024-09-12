@@ -13,7 +13,7 @@ class LoginViewModel(
 ) : BaseViewModel() {
 
     fun onGoToRegister() {
-        launchAsync("onGoToCadastrar", appStore) {
+        launchAsync("onGoToRegister", appStore) {
             navigationStore.onNext(RegisterDestination)
         }
     }

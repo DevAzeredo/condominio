@@ -1,6 +1,7 @@
 package br.com.soft.di.presentation
 
 import androidx.compose.runtime.Composable
+import br.com.soft.presentation.dashboard.DashBoardDestination
 import br.com.soft.presentation.login.LoginDestination
 import br.com.soft.presentation.navigation.NavigationBarPage
 import br.com.soft.presentation.navigation.NavigationBarStore
@@ -43,10 +44,10 @@ val navigationBarModule = module {
                 ),
                 createPage(
                     store = get(),
-                    destination = NavigationCDestination,
+                    destination = DashBoardDestination,
                     getActiveIcon = { AppIcons.coffee },
                     getInactiveIcon = { AppIcons.coffee },
-                    getLabel = { "Page 3" }
+                    getLabel = { "Page DashBoard" }
                 )
             ),
             allowedDestinations = setOf(

@@ -2,9 +2,11 @@ package br.com.soft.di.presentation
 
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import br.com.soft.presentation.apartment.ApartmentViewModel
 import br.com.soft.presentation.app.AppNavigationRouter
 import br.com.soft.presentation.app.AppStore
 import br.com.soft.presentation.app.AppViewModel
+import br.com.soft.presentation.dashboard.DashBoardViewModel
 import br.com.soft.presentation.loader.LoaderViewModel
 import br.com.soft.presentation.login.LoginViewModel
 import br.com.soft.presentation.navigation.NavigationBarViewModel
@@ -67,6 +69,8 @@ val appModule = module {
             initializer { ForgotPasscodeViewModel(get(), get()) }
             initializer { RegisterViewModel(get(), get()) }
             initializer { LoginViewModel(get(), get()) }
+            initializer { DashBoardViewModel(get(), get()) }
+            initializer { ApartmentViewModel(get(), get(), get()) }
         }
     }
 }
