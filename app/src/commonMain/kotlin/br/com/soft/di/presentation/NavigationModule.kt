@@ -10,6 +10,7 @@ import br.com.soft.presentation.passcode.ui.reset.ResetPasscodeDestination
 import br.com.soft.presentation.passcode.ui.set.SetPasscodeDestination
 import br.com.soft.presentation.passcode.ui.unlock.UnlockPasscodeDestination
 import br.com.soft.presentation.register.RegisterDestination
+import br.com.soft.presentation.sharedspaces.SharedSpacesDestination
 import br.com.soft.presentation.showcases.ShowcasesDestination
 import br.com.soft.presentation.template.screen_with_args.TemplateDestination
 import br.com.soft.presentation.template.screen_without_args.TemplateNoArgsDestination
@@ -32,7 +33,8 @@ val navigationModule = module {
                 RegisterDestination,
                 LoginDestination,
                 DashBoardDestination,
-                ApartmentDestination
+                ApartmentDestination,
+                SharedSpacesDestination
             )
         )
     }

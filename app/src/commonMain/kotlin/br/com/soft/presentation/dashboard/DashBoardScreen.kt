@@ -87,7 +87,7 @@ fun DashBoardScreen() {
                 apartments = apartmentList.fastMap { apartment -> apartment.name },
                 onClick = {  index ->
                     viewModel.apartment.set(apartmentList[index])
-                    viewModel.onGoToApartment()
+                    viewModel.onGoToSharedSpaces()
                 })
         }
     }

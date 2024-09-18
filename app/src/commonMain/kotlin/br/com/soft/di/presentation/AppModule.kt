@@ -19,6 +19,7 @@ import br.com.soft.presentation.passcode.ui.reset.ResetPasscodeViewModel
 import br.com.soft.presentation.passcode.ui.set.SetPasscodeViewModel
 import br.com.soft.presentation.passcode.ui.unlock.UnlockPasscodeViewModel
 import br.com.soft.presentation.register.RegisterViewModel
+import br.com.soft.presentation.sharedspaces.SharedSpacesViewModel
 import br.com.soft.presentation.showcases.ShowcasesViewModel
 import br.com.soft.presentation.showcases.dataflow.encryption.BasicEncryptionViewModel
 import br.com.soft.presentation.showcases.dataflow.keyvalue.`object`.ObjectKeyValueViewModel
@@ -71,6 +72,7 @@ val appModule = module {
             initializer { LoginViewModel(get(), get()) }
             initializer { DashBoardViewModel(get(), get()) }
             initializer { ApartmentViewModel(get(), get(), get()) }
+            initializer { SharedSpacesViewModel(get(), get(), get()) }
         }
     }
 }
