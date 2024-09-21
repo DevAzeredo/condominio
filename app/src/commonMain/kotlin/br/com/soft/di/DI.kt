@@ -1,5 +1,6 @@
 package br.com.soft.di
 
+import br.com.soft.di.data.RepositoryModule
 import br.com.soft.di.data.configSourceModule
 import br.com.soft.di.data.encryptionSourceModule
 import br.com.soft.di.data.keyValueSourceModule
@@ -14,6 +15,7 @@ import org.koin.core.context.startKoin
 val koinApp = startKoin {
     printLogger()
     modules(
+        RepositoryModule,
         configSourceModule,
         encryptionSourceModule,
         keyValueSourceModule,

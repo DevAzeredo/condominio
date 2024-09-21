@@ -1,24 +1,26 @@
 package br.com.soft.presentation.apartment
 
+import br.com.soft.data.model.Apartment
+import br.com.soft.data.repository.Apartment.ApartmentRepository
 import br.com.soft.presentation.app.AppStore
-import br.com.soft.presentation.register.RegisterDestination
-import kotlinx.coroutines.delay
-import kotlinx.serialization.Serializable
-import shared.data.source.keyvalue.KeyValueSource
+import kotlinx.coroutines.flow.count
 import shared.presentation.navigation.NavigationStore
 import shared.presentation.viewmodel.BaseViewModel
 
 class ApartmentViewModel(
     private val navigationStore: NavigationStore,
     private val appStore: AppStore,
-    private val keyValueSource: KeyValueSource
+    private val repository: ApartmentRepository
 ) : BaseViewModel() {
-
+    lateinit var apartment: Apartment
 
     fun onSave() {
-        launchAsync("onRequestCode", appStore) {
-            // logica p salvar
-            delay(3000L)
+        launchAsync("onSave", appStore) {
+            if (apartment.id == 0) {
+                apartment.id = repository.getApartments().count() + 1
+                repository.addApartment(apartment)
+            }
+            repository.saveChanges()
         }
     }
 

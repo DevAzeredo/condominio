@@ -24,7 +24,7 @@ import shared.presentation.viewmodel.provideViewModel
 @Composable
 fun ApartmentScreen(data: ApartmentDestination.Data) {
     val viewModel: ApartmentViewModel = provideViewModel()
-    val apartment = data.apartment?: Apartment("", "", "", "", "")
+    viewModel.apartment = data.apartment?: Apartment(0,"", "", "", "", "")
 
     Column(
         modifier = Modifier.padding(16.dp).fillMaxSize().verticalScroll(rememberScrollState()),
@@ -43,29 +43,29 @@ fun ApartmentScreen(data: ApartmentDestination.Data) {
             modifier = Modifier.padding(bottom = 16.dp)
         )
         OutlinedTextField(
-            value = apartment.documento,
-            onValueChange = { apartment.documento = it },
+            value = viewModel.apartment.documents,
+            onValueChange = { viewModel.apartment.documents = it },
             label = { Text("Documento") },
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = apartment.email,
-            onValueChange = { apartment.email = it },
+            value = viewModel.apartment.email,
+            onValueChange = { viewModel.apartment.email = it },
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = apartment.numeroContato,
-            onValueChange = { apartment.numeroContato = it },
+            value = viewModel.apartment.contact,
+            onValueChange = { viewModel.apartment.contact = it },
             label = { Text("Número de Contato") },
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = apartment.observacoes,
-            onValueChange = { apartment.observacoes = it },
+            value = viewModel.apartment.observation,
+            onValueChange = { viewModel.apartment.observation = it },
             label = { Text("Observações") },
             modifier = Modifier.fillMaxWidth(),
         )

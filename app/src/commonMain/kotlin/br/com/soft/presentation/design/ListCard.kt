@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ListCard(apartments: List<String>, onClick: (Int) -> Unit) {
+fun ListCard(list: List<String>, onClick: (Int) -> Unit) {
     Column {
-        apartments.forEachIndexed { index, apartment ->
+        list.forEachIndexed { index, l ->
             ElevatedCard(
                 onClick = { onClick( index) },
                 modifier = Modifier
@@ -22,7 +22,7 @@ fun ListCard(apartments: List<String>, onClick: (Int) -> Unit) {
                     .padding(16.dp)
             ) {
                 Box(Modifier.fillMaxWidth().padding(16.dp)) {
-                    Text(text = apartment, Modifier.align(Alignment.Center))
+                    Text(text = l, Modifier.align(Alignment.Center))
                 }
             }
         }

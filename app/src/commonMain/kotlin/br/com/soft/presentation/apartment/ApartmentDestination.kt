@@ -19,6 +19,6 @@ object ApartmentDestination : NavigationDestination<ApartmentDestination.Data>()
 
     @Serializable
     data class Data(
-        val apartment: Apartment?
+        var apartment: Apartment?
     )
 }
