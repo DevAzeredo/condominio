@@ -1,8 +1,7 @@
-package br.com.soft.data.repository.Apartment
+package br.com.soft.data.repository.apartment
 
 import br.com.soft.data.model.Apartment
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +14,6 @@ import shared.data.source.keyvalue.KeyValueSource
 class ApartmentRepositoryLocalImpl(
     private val keyValueSource: KeyValueSource
 ) : ApartmentRepository {
-    // Criação de um Job e CoroutineScope para gerenciar as coroutines
     private val repositoryJob = Job()
     private val repositoryScope = CoroutineScope(repositoryJob)
 

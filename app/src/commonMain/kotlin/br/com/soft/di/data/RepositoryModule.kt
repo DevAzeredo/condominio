@@ -1,12 +1,12 @@
 package br.com.soft.di.data
 
-import br.com.soft.data.repository.Apartment.ApartmentRepository
-import br.com.soft.data.repository.Apartment.ApartmentRepositoryLocalImpl
-import br.com.soft.data.source.config.AppConfigSource
-import org.koin.dsl.bind
+import br.com.soft.data.repository.apartment.ApartmentRepository
+import br.com.soft.data.repository.apartment.ApartmentRepositoryLocalImpl
+import br.com.soft.data.repository.sharedSpaces.SharedSpaceRepository
+import br.com.soft.data.repository.sharedSpaces.SharedSpaceRepositoryLocalImpl
 import org.koin.dsl.module
-import shared.data.source.config.ConfigSource
 
 val RepositoryModule = module {
     single<ApartmentRepository> { ApartmentRepositoryLocalImpl(get()) }
+    single<SharedSpaceRepository> { SharedSpaceRepositoryLocalImpl(get()) }
 }

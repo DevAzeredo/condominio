@@ -3,7 +3,8 @@ package br.com.soft.data.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SharedSpaces(
+data class SharedSpace(
+    var id:Int,
     var name: String,
     var documento: String,
     var email: String,

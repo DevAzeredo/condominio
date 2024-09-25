@@ -19,96 +19,101 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastMap
-import br.com.soft.data.model.Apartment
 import br.com.soft.presentation.design.AccordionCard
 import br.com.soft.presentation.design.ListCard
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import shared.presentation.viewmodel.provideViewModel
 
 
 @Composable
 fun DashBoardScreen() {
     val viewModel: DashBoardViewModel = provideViewModel()
-    var name by remember {
-        mutableStateOf("")
-    }
+    val uiState by viewModel.uiState.collectAsState()
 
-    var apartmentList by remember { mutableStateOf<List<Apartment>>(emptyList()) }
-    LaunchedEffect(Unit) {
-        viewModel.repository.getApartments().collect { apartments ->
-            apartmentList = apartments
-        }
-    }
     Column(
-        modifier = Modifier.padding(16.dp).fillMaxSize().verticalScroll(rememberScrollState()),
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Nome do condominio",
+            text = "Nome do condomínio",
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         AccordionCard("Apartamentos") {
             ListCard(
-                list =  apartmentList.fastMap { l -> l.name },
+                list = uiState.apartmentList.fastMap { it.name },
                 onClick = { index ->
-                    viewModel.apartment.set(apartmentList[index])
-                    viewModel.onGoToApartment()
-                })
-
-            ElevatedCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-
-                Box(Modifier.fillMaxWidth().padding(16.dp)) {
-                    TextField(
-                        value = name,
-                        onValueChange = { name = it },
-                        label = { Text("Novo Apartamento") },
-                        modifier = Modifier.fillMaxWidth(),
-                        trailingIcon = {
-                            IconButton(onClick = {
-                                val newApartment = Apartment(0, name, "", "", "", "")
-                               viewModel.onNewApartment(newApartment)
-                                apartmentList += newApartment
-                                name = ""
-
-                            }) {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "Novo Apartamento"
-                                )
-                            }
-                        }
-
-                    )
+                    viewModel.onGoToApartment(uiState.apartmentList[index])
                 }
+            )
+            cardNewItem(
+                uiState.newApartmentName,
+                { viewModel.onApartmentNameChange(it) },
+                { viewModel.onNewApartment(uiState.newApartmentName) },
+                "Novo Apartamento"
+            )
+
+        }
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+    AccordionCard("Áreas Reserváveis") {
+        ListCard(
+            list = uiState.sharedSpacesList.fastMap { it.name },
+            onClick = { index ->
+                viewModel.onGoToSharedSpaces(uiState.sharedSpacesList[index])
             }
-        }
+        )
         Spacer(modifier = Modifier.height(16.dp))
-        AccordionCard("Areas Reservaveis") {
-            ListCard(
-                list = apartmentList.fastMap { ar -> ar.name },
-                onClick = { index ->
-                    viewModel.apartment.set(apartmentList[index])
-                    viewModel.onGoToSharedSpaces()
-                })
+        cardNewItem(
+            uiState.newSharedSpacesName,
+            { viewModel.onSharedSpaceNameChange(it) },
+            { viewModel.onNewSharedSpacesName(uiState.newSharedSpacesName) },
+            "Nova Area reservavel"
+        )
+    }
+
+    Spacer(modifier = Modifier.height(100.dp))
+}
+
+@Composable
+fun cardNewItem(
+    value: String,
+    onValueChange: (String) -> Unit,
+    onClick: () -> Unit,
+    label: String
+) {
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Box(Modifier.fillMaxWidth().padding(16.dp)) {
+            TextField(
+                value = value,
+                onValueChange = { onValueChange(it) },
+                label = { Text(label) },
+                modifier = Modifier.fillMaxWidth(),
+                trailingIcon = {
+                    IconButton(onClick = {
+                        onClick()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = label
+                        )
+                    }
+                }
+            )
         }
-        Spacer(modifier = Modifier.height(100.dp))
     }
 }

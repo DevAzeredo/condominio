@@ -1,7 +1,7 @@
 package br.com.soft.presentation.apartment
 
 import br.com.soft.data.model.Apartment
-import br.com.soft.data.repository.Apartment.ApartmentRepository
+import br.com.soft.data.repository.apartment.ApartmentRepository
 import br.com.soft.presentation.app.AppStore
 import kotlinx.coroutines.flow.count
 import shared.presentation.navigation.NavigationStore

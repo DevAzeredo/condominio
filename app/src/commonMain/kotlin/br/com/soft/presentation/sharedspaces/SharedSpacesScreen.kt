@@ -44,6 +44,7 @@ import shared.presentation.viewmodel.provideViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SharedSpacesScreen(data: SharedSpacesDestination.Data) {
+    // TODO alterar para uiState
     val viewModel: SharedSpacesViewModel = provideViewModel()
     var textDate by rememberSaveable { mutableStateOf("") }
     var textTime by rememberSaveable { mutableStateOf("") }
@@ -69,7 +70,7 @@ fun SharedSpacesScreen(data: SharedSpacesDestination.Data) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = data.apartment?.name ?: "",
+            text = data.sharedSpace?.name ?: "",
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 16.dp)
         )

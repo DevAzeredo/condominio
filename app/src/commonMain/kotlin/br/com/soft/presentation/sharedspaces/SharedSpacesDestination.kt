@@ -3,6 +3,7 @@ package br.com.soft.presentation.sharedspaces
 import SharedSpacesScreen
 import androidx.navigation.NavGraphBuilder
 import br.com.soft.data.model.Apartment
+import br.com.soft.data.model.SharedSpace
 import kotlinx.serialization.Serializable
 import shared.presentation.navigation.ArgsStrategy
 import shared.presentation.navigation.NavigationDestination
@@ -17,6 +18,6 @@ object SharedSpacesDestination : NavigationDestination<SharedSpacesDestination.D
 
     @Serializable
     data class Data(
-        val apartment: Apartment?
+        val sharedSpace: SharedSpace?
     )
 }

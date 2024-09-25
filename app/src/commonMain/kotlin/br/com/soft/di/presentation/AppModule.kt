@@ -70,7 +70,7 @@ val appModule = module {
             initializer { ForgotPasscodeViewModel(get(), get()) }
             initializer { RegisterViewModel(get(), get()) }
             initializer { LoginViewModel(get(), get()) }
-            initializer { DashBoardViewModel(get(), get(), get()) }
+            initializer { DashBoardViewModel(get(), get(), get(), get()) }
             initializer { ApartmentViewModel(get(), get(), get()) }
             initializer { SharedSpacesViewModel(get(), get(), get()) }
         }
