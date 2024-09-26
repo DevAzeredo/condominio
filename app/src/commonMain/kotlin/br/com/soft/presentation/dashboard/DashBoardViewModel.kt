@@ -20,7 +20,6 @@ class DashBoardViewModel(
     private val sharedSpacesRepository: SharedSpaceRepository
 ) : BaseViewModel() {
 
-    // StateFlow para armazenar o estado da UI
     private val _uiState = MutableStateFlow(DashboardUiState())
     val uiState: StateFlow<DashboardUiState> get() = _uiState.asStateFlow()
 
@@ -50,48 +49,62 @@ class DashBoardViewModel(
             )
         }
     }
+
     private fun fetchSharedSpaces() {
-        launchAsync("fetchSharedSpaces", appStore) {
-            _uiState.value = _uiState.value.copy(isLoading = true)
+        launchAsync("fetchSharedSpaces") {
             sharedSpacesRepository.getSharedSpace().collect { sharedSpacesList ->
                 _uiState.value = _uiState.value.copy(
-                    sharedSpacesList = sharedSpacesList,
-                    isLoading = false
+                    sharedSpacesList = sharedSpacesList
                 )
             }
         }
     }
 
     private fun fetchApartments() {
-        launchAsync("fetchApartments", appStore) {
-            _uiState.value = _uiState.value.copy(isLoading = true)
+        launchAsync("fetchApartments") {
             apartmentRepository.getApartments().collect { apartmentsList ->
                 _uiState.value = _uiState.value.copy(
-                    apartmentList = apartmentsList,
-                    isLoading = false
+                    apartmentList = apartmentsList
                 )
             }
         }
     }
 
     fun onNewApartment(newApartmentName: String) {
+        if (newApartmentName.trim().isEmpty()) return
         val newApartment = Apartment(0, newApartmentName, "", "", "", "")
         launchAsync("onNewApartment", appStore) {
-            _uiState.value = _uiState.value.copy(isLoading = true)
             apartmentRepository.addApartment(newApartment)
             apartmentRepository.saveChanges()
             fetchApartments()
-            _uiState.value = _uiState.value.copy(newApartmentName = "", isLoading = false)
+            _uiState.value = _uiState.value.copy(newApartmentName = "")
         }
     }
+
+    fun onRemoveApartment(removedApartment: Apartment) {
+        launchAsync("onRemoveApartment", appStore) {
+            apartmentRepository.removeApartment(removedApartment)
+            apartmentRepository.saveChanges()
+            fetchApartments()
+        }
+    }
+
+    fun onRemoveSharedSpaces(removedSharedSpace: SharedSpace) {
+        launchAsync("onRemoveSharedSpace", appStore) {
+            sharedSpacesRepository.removeSharedSpace(removedSharedSpace)
+            sharedSpacesRepository.saveChanges()
+            fetchSharedSpaces()
+        }
+    }
+
     fun onNewSharedSpacesName(newSharedSpacesName: String) {
+        if (newSharedSpacesName.trim().isEmpty()) return
         val newSharedSpace = SharedSpace(0, newSharedSpacesName, "", "", "", "")
         launchAsync("onNewSharedSpacesName", appStore) {
-            _uiState.value = _uiState.value.copy(isLoading = true)
             sharedSpacesRepository.addSharedSpace(newSharedSpace)
-           sharedSpacesRepository.saveChanges()
+            sharedSpacesRepository.saveChanges()
             fetchApartments()
-            _uiState.value = _uiState.value.copy(newApartmentName = "", isLoading = false)
+            _uiState.value = _uiState.value.copy(newSharedSpacesName = "")
         }
     }
 
@@ -99,6 +112,7 @@ class DashBoardViewModel(
     fun onApartmentNameChange(newName: String) {
         _uiState.value = _uiState.value.copy(newApartmentName = newName)
     }
+
     fun onSharedSpaceNameChange(newName: String) {
         _uiState.value = _uiState.value.copy(newSharedSpacesName = newName)
     }
@@ -108,7 +122,6 @@ class DashBoardViewModel(
         val sharedSpacesList: List<SharedSpace> = emptyList(),
         val newApartmentName: String = "",
         val newSharedSpacesName: String = "",
-        val isLoading: Boolean = false,
         val errorMessage: String? = null,
     )
 }
