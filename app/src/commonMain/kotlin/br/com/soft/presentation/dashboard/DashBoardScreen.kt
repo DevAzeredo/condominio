@@ -47,7 +47,7 @@ fun DashBoardScreen() {
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Nome do condomínio",
+            text = "Nome do condomínio",// TODO pegar de forma dinamica, melhor forma seria um singleton com todas informacoes basicas do condominio, que sera reutilizada varias e varias vezes ou fazer um select? sei la
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 16.dp)
         )

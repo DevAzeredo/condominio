@@ -43,9 +43,7 @@ class DashBoardViewModel(
         launchAsync("onGoToSharedSpaces", appStore) {
             navigationStore.onNext(
                 destination = SharedSpacesDestination,
-                data = SharedSpacesDestination.Data(
-                    sharedSpace = sharedSpace
-                )
+                data = sharedSpace
             )
         }
     }

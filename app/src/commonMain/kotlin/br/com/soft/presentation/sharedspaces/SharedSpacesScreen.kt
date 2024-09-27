@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -18,148 +21,175 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimeInput
+import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.soft.data.model.Event
-import br.com.soft.presentation.sharedspaces.SharedSpacesDestination
+import br.com.soft.data.model.SharedSpace
 import br.com.soft.presentation.sharedspaces.SharedSpacesViewModel
+import br.com.soft.presentation.utils.formatDate
+import br.com.soft.presentation.utils.formatHour
+import br.com.soft.presentation.utils.formatMinute
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import shared.design.component.TimePickerDialog
 import shared.design.component.DatePickerDialog
+import shared.design.component.TimePickerDialog
 import shared.design.icon.Timer
 import shared.presentation.viewmodel.provideViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SharedSpacesScreen(data: SharedSpacesDestination.Data) {
-    // TODO alterar para uiState
-    val viewModel: SharedSpacesViewModel = provideViewModel()
-    var textDate by rememberSaveable { mutableStateOf("") }
-    var textTime by rememberSaveable { mutableStateOf("") }
+fun SharedSpacesScreen(sharedSpace: SharedSpace) {val viewModel: SharedSpacesViewModel = provideViewModel()
+    viewModel.setSharedSpace(sharedSpace)
+    val uiState by viewModel.uiState.collectAsState()
+    var dateText by remember { mutableStateOf(uiState.date.formatDate()) }
+    var timeText by remember {mutableStateOf("${uiState.hour.formatHour()}:${uiState.minute.formatMinute()}") }
     val openDialogData = remember { mutableStateOf(false) }
     val openDialogTime = remember { mutableStateOf(false) }
-    val dateState = rememberDatePickerState(
-        initialSelectedDateMillis = Clock.System.now().toEpochMilliseconds()
-    )
-    var timeState = rememberTimePickerState(is24Hour = false)
-    var timeStateLog = rememberTimePickerState(is24Hour = false)
-
-    val events = listOf(
-        Event("Evento 1", "2024-09-18", "10:00"),
-        Event("Evento 2", "2024-09-18", "14:00")
-    )
+    val dateState = rememberDatePickerState(initialSelectedDateMillis = uiState.date)
+    val timeState = rememberTimePickerState(is24Hour = true)
 
     Column(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .verticalScroll(rememberScrollState()),horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = data.sharedSpace?.name ?: "",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        DatePickerDialog(dateState, openDialogData)
-
-        textDate = dateState.selectedDateMillis?.let {
-            Instant.fromEpochMilliseconds(it).toLocalDateTime(TimeZone.UTC).date.toString()
-        } ?: {
-            Clock.System.now().toLocalDateTime(TimeZone.UTC).date
-        }.toString()
-
-        OutlinedTextField(
-            value = textDate,
-            onValueChange = { textDate = it },
-            label = { Text("Data") },
-            trailingIcon = {
-                IconButton(onClick = {
-                    openDialogData.value = !openDialogData.value
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.DateRange,
-                        contentDescription = "Selecionar Data"
-                    )
-                }
-            },
-            readOnly = true
-        )
+        SharedSpaceTitle(uiState.sharedSpace.name)
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            value = textTime,
-            onValueChange = { textTime = it },
-            label = { Text("Horario") },
-            trailingIcon = {
-                IconButton(onClick = {
-                    openDialogTime.value = !openDialogTime.value
-                }) {
-                    Icon(
-                        imageVector = Timer,
-                        contentDescription = "Selecionar horario"
-                    )
-                }
-            },
-            readOnly = true
-        )
-        if (openDialogTime.value) {
-            TimePickerDialog(
-                content = { TimeInput(timeState, modifier = Modifier.padding(8.dp)) },
-                onCancel = { timeState = timeStateLog
-                    openDialogTime.value = !openDialogTime.value },
-                onConfirm = { timeStateLog = timeState
-                    openDialogTime.value = !openDialogTime.value},
-                toggle = { /* deixar vazio por enquanto, ###analisar */
-                })
-
+        DateInput(dateText, openDialogData, dateState) { newDate->
+            dateText = newDate.formatDate()
+            viewModel.setDate(newDate)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "Eventos Agendados:",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
 
-        events.forEach { event ->
-            ElevatedCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp)
-            ) {
-                Text(
-                    text = event.name,
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.bodyMedium
+        TimeInput(timeText, openDialogTime, timeState) { newTime ->
+            timeText = newTime
+            val (hour, minute) = newTime.split(":").map { it.toInt() }
+            viewModel.setHour(hour)
+            viewModel.setMinute(minute)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        EventsSection(uiState.eventList)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        SaveButton { viewModel.onSave() }
+    }
+}
+
+@Composable
+fun SharedSpaceTitle(name: String) {
+    Text(
+        text = name,
+        style = MaterialTheme.typography.headlineMedium,modifier = Modifier.padding(bottom = 16.dp)
+    )
+}
+
+@Composable
+fun DateInput(dateText: String, openDialogData: MutableState<Boolean>, dateState: DatePickerState, onDateChange: (Long) -> Unit) {
+    DatePickerDialog(dateState, openDialogData, onDateChange)
+    OutlinedTextField(
+        value = dateText,
+        onValueChange = { /*read only*/ },
+        label = { Text("Data") },
+        trailingIcon = {
+            IconButton(onClick = { openDialogData.value = !openDialogData.value }) {
+                Icon(
+                    imageVector = Icons.Default.DateRange,
+                    contentDescription = "Selecionar Data"
                 )
             }
-        }
+        },
+        readOnly = true
+    )
+}
 
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = {
-                viewModel.onSave()
-            },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text("Salvar")
-        }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TimeInput(timeText: String, openDialogTime: MutableState<Boolean>, timeState: TimePickerState, onTimeChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = timeText,
+        onValueChange = { /*readonly*/ },
+        label = { Text("Horario") },
+        trailingIcon = {
+            IconButton(onClick = { openDialogTime.value = !openDialogTime.value }) {
+                Icon(
+                    imageVector = Timer,
+                    contentDescription = "Selecionar horario"
+                )
+            }
+        },
+        readOnly = true
+    )
+    if (openDialogTime.value) {
+        TimePickerDialog(
+            content = { TimeInput(timeState, modifier = Modifier.padding(8.dp)) },
+            onCancel = { openDialogTime.value = false },
+            onConfirm = {
+                onTimeChange("${timeState.hour.formatHour()}:${timeState.minute.formatMinute()}")
+                openDialogTime.value = false
+            }
+        )
+    }
+}
+
+@Composable
+fun EventsSection(eventList: List<Event>) {
+    Text(
+        text = "Eventos Agendados:",
+        style = MaterialTheme.typography.bodyLarge,
+        modifier = Modifier.padding(bottom = 8.dp)
+    )
+    EventList(eventList)
+}
+
+@Composable
+fun EventList(eventList: List<Event>) {
+    eventList.forEach { event ->
+        EventCard(event)
+    }
+}
+
+@Composable
+fun EventCard(event: Event) {
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        Text(
+            text = event.name,
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+@Composable
+fun SaveButton(onSave: () -> Unit) {
+    Button(
+        onClick = onSave,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text("Salvar")
     }
 }

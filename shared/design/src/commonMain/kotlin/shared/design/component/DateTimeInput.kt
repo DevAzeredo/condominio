@@ -89,7 +89,8 @@ fun TimePickerDialog(
 @Composable
 fun DatePickerDialog(
     datePickerState: DatePickerState = rememberDatePickerState(),
-    openDialog: MutableState<Boolean>
+    openDialog: MutableState<Boolean>,
+    onDateChange: (Long) -> Unit
 ) {
     if (openDialog.value) {
         val confirmEnabled = remember {
@@ -103,6 +104,8 @@ fun DatePickerDialog(
                 TextButton(
                     onClick = {
                         openDialog.value = false
+                        datePickerState
+                            .selectedDateMillis?.let { onDateChange(it) }
                     },
                     enabled = confirmEnabled.value
                 ) {
