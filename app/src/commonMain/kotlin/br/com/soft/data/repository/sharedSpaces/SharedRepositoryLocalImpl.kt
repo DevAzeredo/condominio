@@ -32,6 +32,9 @@ class SharedSpaceRepositoryLocalImpl(
 
     override suspend fun addSharedSpace(sharedSpace: SharedSpace) {
         val currentList = sharedSpaceFlow.value.toMutableList()
+        if (sharedSpace.id == 0) {
+            sharedSpace.id = currentList.size + 1
+        }
         currentList.add(sharedSpace)
         sharedSpaceFlow.value = currentList
     }

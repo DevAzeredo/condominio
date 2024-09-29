@@ -32,6 +32,9 @@ class ApartmentRepositoryLocalImpl(
 
     override suspend fun addApartment(apartment: Apartment) {
         val currentList = apartmentsFlow.value.toMutableList()
+        if (apartment.id == 0) {
+            apartment.id = currentList.size + 1
+        }
         currentList.add(apartment)
         apartmentsFlow.value = currentList
     }
