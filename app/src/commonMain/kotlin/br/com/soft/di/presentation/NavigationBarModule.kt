@@ -5,11 +5,7 @@ import br.com.soft.presentation.dashboard.DashBoardDestination
 import br.com.soft.presentation.login.LoginDestination
 import br.com.soft.presentation.navigation.NavigationBarPage
 import br.com.soft.presentation.navigation.NavigationBarStore
-import br.com.soft.presentation.navigation.samples.a.NavigationADestination
-import br.com.soft.presentation.navigation.samples.b.NavigationBDestination
-import br.com.soft.presentation.navigation.samples.c.NavigationCDestination
 import br.com.soft.presentation.register.RegisterDestination
-import br.com.soft.presentation.showcases.ShowcasesDestination
 import org.koin.dsl.module
 import shared.presentation.navigation.NavigationDestination
 import shared.presentation.navigation.NavigationStore
@@ -21,13 +17,6 @@ val navigationBarModule = module {
     single {
         NavigationBarStore(
             pages = listOf(
-                createPage(
-                    store = get(),
-                    destination = ShowcasesDestination,
-                    getActiveIcon = { AppIcons.school },
-                    getInactiveIcon = { AppIcons.school },
-                    getLabel = { "Showcases" }
-                ),
                 createPage(
                     store = get(),
                     destination = RegisterDestination,
@@ -53,6 +42,8 @@ val navigationBarModule = module {
             allowedDestinations = setOf(
             ),
             restrictedDestinations = setOf(
+                DashBoardDestination,
+                RegisterDestination
             )
         )
     }

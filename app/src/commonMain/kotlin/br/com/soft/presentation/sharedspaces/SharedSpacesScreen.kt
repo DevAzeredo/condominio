@@ -212,7 +212,7 @@ fun EventCard(event: Event, onRemove: (Event) -> Unit) {
                 Text(
                     text = event.name,
                     modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.headlineMedium
                 )
                 Text(
                     text = event.date.formatDate() + " " + event.hour.formatHour() + ":" + event.minute.formatMinute(),

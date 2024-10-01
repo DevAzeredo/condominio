@@ -1,6 +1,6 @@
 package br.com.soft.presentation.app
 
-import br.com.soft.presentation.showcases.ShowcasesDestination
+import br.com.soft.presentation.login.LoginDestination
 import shared.presentation.navigation.NavigationDestination
 
 /**
@@ -14,7 +14,7 @@ class AppNavigationRouter {
      * @return The start destination.
      */
     suspend fun getStartDestination(): NavigationDestination<*> {
-        return ShowcasesDestination
+        return LoginDestination
     }
 
 }
